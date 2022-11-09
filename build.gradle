@@ -1,0 +1,27 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'java'
+}
+
+group = 'com.jhson'
+version = '0.0.1'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'com.oracle.database.jdbc:ojdbc8-production:21.7.0.0'
+	implementation 'org.jasypt:jasypt:1.9.3'
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+	systemProperty 'jasypt.encryptor.password', findProperty("jasypt.encryptor.password")
+}
