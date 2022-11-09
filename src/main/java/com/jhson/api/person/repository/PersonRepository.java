@@ -12,5 +12,8 @@ public interface PersonRepository {
 
     Optional<Person> findOneByName(String name);
 
+    boolean updateAge(String name, int age);
+
     boolean deleteOneByName(String name);
+
 }

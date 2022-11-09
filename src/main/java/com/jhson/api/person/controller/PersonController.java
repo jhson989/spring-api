@@ -17,12 +17,12 @@ import static java.lang.Integer.*;
 @Controller
 public class PersonController {
 
-    private final PersonRepository personRepository;
+    //private final PersonRepository personRepository;
     private final PersonService personService;
 
     @Autowired
     public PersonController(PersonRepository personRepository, PersonService personService) {
-        this.personRepository = personRepository;
+        //this.personRepository = personRepository;
         this.personService = personService;
     }
 
@@ -55,10 +55,25 @@ public class PersonController {
 
     @GetMapping("/person/show/{name}")
     @ResponseBody
-    public Person showOneByName(@PathVariable("name") String name) {
+    public Person showOneByName(
+            @PathVariable("name") String name
+    ) {
         return personService.findOneByName(name);
     }
 
+
+    /* *************************************************************************************
+     * Update
+     * ex) 0.0.0.0/person/update?name={name(str)}&age={age(int)}
+     * *************************************************************************************/
+    @GetMapping("/person/update")
+    @ResponseBody
+    public String updateAge(
+            @RequestParam("name") String name,
+            @RequestParam("age") String age
+    ) {
+        return Boolean.toString(personService.updateAge(name, parseInt(age)));
+    }
 
     /* *************************************************************************************
      * Delete
@@ -66,7 +81,9 @@ public class PersonController {
      * *************************************************************************************/
     @GetMapping("/person/delete/{name}")
     @ResponseBody
-    public String deleteOneByName(@PathVariable("name") String name) {
+    public String deleteOneByName(
+            @PathVariable("name") String name
+    ) {
         return Boolean.toString(personService.deleteOneByName(name));
     }
 

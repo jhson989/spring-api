@@ -47,8 +47,13 @@ public class OraclePersonRepository implements PersonRepository {
     }
 
     @Override
+    public boolean updateAge(String name, int age) {
+        return (jdbcTemplate.update("update person set age=? where name = ?", age, name) != 0);
+    }
+
+    @Override
     public boolean deleteOneByName(String name) {
-        return (jdbcTemplate.update("delete from person where name = ?", name) == 1);
+        return (jdbcTemplate.update("delete from person where name = ?", name) != 0);
     }
 
     private RowMapper<Person> personRowMapper() {

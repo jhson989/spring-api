@@ -33,7 +33,12 @@ public class PersonService {
         return person.orElse(null);
     }
 
+    public boolean updateAge(String name, int age) {
+        return personRepository.updateAge(name, age);
+    }
+
     public boolean deleteOneByName(String name) {
         return personRepository.deleteOneByName(name);
     }
+
 }
