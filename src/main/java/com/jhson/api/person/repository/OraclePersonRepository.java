@@ -8,7 +8,9 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class OraclePersonRepository implements PersonRepository {
 
@@ -29,6 +31,28 @@ public class OraclePersonRepository implements PersonRepository {
         jdbcInsert.execute(parameters);
 
         return person;
+    }
+
+    @Override
+    public List<Person> findAll() {
+        return jdbcTemplate.query(
+                "select * from person", personRowMapper()
+        );
+    }
+
+    @Override
+    public Optional<Person> findOneByName(String name) {
+        List<Person> results = jdbcTemplate.query("select * from person where name=?", personRowMapper(), name);
+        return results.stream().findAny();
+    }
+
+    @Override
+    public boolean deleteOneByName(String name) {
+        return (jdbcTemplate.update("delete from person where name = ?", name) == 1);
+    }
+
+    private RowMapper<Person> personRowMapper() {
+        return (rs, rowNum) -> new Person(rs.getString("name"), rs.getInt("age"));
     }
 
 }
