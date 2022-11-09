@@ -20,23 +20,17 @@ public class PersonService {
 
     public Person add(String name, int age) {
         Person person = new Person(name, age);
-        personRepository.add(person);
-        return person;
+        return personRepository.add(person);
     }
 
     public List<Person> findAll() {
-        List<Person> people = personRepository.findAll();
-        return people;
+        return personRepository.findAll();
     }
 
     public Person findOneByName(String name) {
 
         Optional<Person> person = personRepository.findOneByName(name);
-        if (person.isPresent()) {
-            return person.get();
-        } else {
-            return null;
-        }
+        return person.orElse(null);
     }
 
     public boolean deleteOneByName(String name) {

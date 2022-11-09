@@ -20,14 +20,16 @@ public class PersonController {
     private final PersonRepository personRepository;
     private final PersonService personService;
 
-
     @Autowired
     public PersonController(PersonRepository personRepository, PersonService personService) {
         this.personRepository = personRepository;
         this.personService = personService;
     }
 
-    // http://0.0.0.0:8080/person/add?name=test1&age=1
+    /* *************************************************************************************
+     * Create
+     * ex) 0.0.0.0/person/add?name={name(str)}&age={age(int)}
+     * *************************************************************************************/
     @GetMapping("/person/add")
     @ResponseBody
     public Person add(
@@ -37,7 +39,14 @@ public class PersonController {
         return personService.add(name, parseInt(age));
     }
 
-    // http://0.0.0.0:8080/person/showAll
+
+    /* *************************************************************************************
+     * Read
+     * - Read all items
+     *      ex) 0.0.0.0/person/show/
+     * - Read an item
+     *      ex) 0.0.0.0/person/show/{name(str)}
+     * *************************************************************************************/
     @GetMapping("/person/show")
     @ResponseBody
     public List<Person> showAll() {
@@ -50,6 +59,11 @@ public class PersonController {
         return personService.findOneByName(name);
     }
 
+
+    /* *************************************************************************************
+     * Delete
+     * ex) 0.0.0.0/person/delete/{name(str)}
+     * *************************************************************************************/
     @GetMapping("/person/delete/{name}")
     @ResponseBody
     public String deleteOneByName(@PathVariable("name") String name) {
