@@ -78,7 +78,10 @@ public class PersonJdbcTemplateRepository implements PersonRepository {
      * Private method
      * *************************************************************************************/
     private RowMapper<Person> personRowMapper() {
-        return (rs, rowNum) -> new Person(rs.getString("name"), rs.getInt("age"));
+        return (rs, rowNum) -> Person.builder()
+                                .setName(rs.getString("name"))
+                                .setAge(rs.getInt("age"))
+                                .build();
     }
 
 }

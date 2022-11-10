@@ -19,7 +19,7 @@ public class PersonService {
     }
 
     public Person add(String name, int age) {
-        Person person = new Person(name, age);
+        Person person = Person.builder().setName(name).setAge(age).build();
         return personRepository.add(person);
     }
 

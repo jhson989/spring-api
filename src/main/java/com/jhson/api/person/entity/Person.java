@@ -8,14 +8,33 @@ public class Person {
     private int age;
 
     public Person() {
-        this.name = "";
-        this.age = -1;
     }
 
-    public Person(String name, int age) {
-        this.name = name;
-        this.age = age;
+    public static PersonBuilder builder() {
+        return new PersonBuilder();
     }
+
+    public static final class PersonBuilder {
+        private String name;
+        private int age;
+
+        public PersonBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+        public PersonBuilder setAge(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public Person build() {
+            Person person = new Person();
+            person.name = this.name;
+            person.age = this.age;
+            return person;
+        }
+    }
+
 
     @Override
     public String toString() {
@@ -42,13 +61,5 @@ public class Person {
 
     public int getAge() {
         return age;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 }
