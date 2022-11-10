@@ -18,14 +18,16 @@ public class ClientJdbcTemplateRepository implements ClientRepository {
 
     @Override
     public boolean addClientLog(ClientLog clientLog) {
-        System.out.println("1");
-        System.out.println(clientLog.getTime());
-        System.out.println("2");
-        long currentMilliseconds = clientLog.getTime().getTime();
-        System.out.println(currentMilliseconds);
-        java.sql.Date sqlDate = new java.sql.Date(currentMilliseconds);
-        System.out.println(sqlDate);
-        System.out.println("3");
-        return jdbcTemplate.update("Insert into client(ip,port,time) values(?,?,?)", clientLog.getIp(), clientLog.getPort(), sqlDate)!=0;
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+        String strDate = dateFormat.format(clientLog.getTime());
+        System.out.println(strDate);
+
+        return jdbcTemplate.update(
+                "Insert into client(ip,port,time) values(?,?,TO_DATE(?,'YYYY-MM-DD HH24:MI:SS'))"
+                , clientLog.getIp()
+                , clientLog.getPort()
+                , strDate
+        )!=0;
     }
 }
