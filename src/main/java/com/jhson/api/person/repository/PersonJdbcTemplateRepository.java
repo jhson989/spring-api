@@ -12,14 +12,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class OraclePersonRepository implements PersonRepository {
+public class PersonJdbcTemplateRepository implements PersonRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public OraclePersonRepository(@Autowired DataSource dataSource) {
+    public PersonJdbcTemplateRepository(@Autowired DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+
+
+    /* *************************************************************************************
+     * Create
+     * *************************************************************************************/
     @Override
     public Person add(Person person) {
 
@@ -33,6 +38,10 @@ public class OraclePersonRepository implements PersonRepository {
         return person;
     }
 
+
+    /* *************************************************************************************
+     * Read
+     * *************************************************************************************/
     @Override
     public List<Person> findAll() {
         return jdbcTemplate.query(
@@ -46,16 +55,28 @@ public class OraclePersonRepository implements PersonRepository {
         return results.stream().findAny();
     }
 
+
+    /* *************************************************************************************
+     * Update
+     * *************************************************************************************/
     @Override
     public boolean updateAge(String name, int age) {
         return (jdbcTemplate.update("update person set age=? where name = ?", age, name) != 0);
     }
 
+
+    /* *************************************************************************************
+     * Delete
+     * *************************************************************************************/
     @Override
     public boolean deleteOneByName(String name) {
         return (jdbcTemplate.update("delete from person where name = ?", name) != 0);
     }
 
+
+    /* *************************************************************************************
+     * Private method
+     * *************************************************************************************/
     private RowMapper<Person> personRowMapper() {
         return (rs, rowNum) -> new Person(rs.getString("name"), rs.getInt("age"));
     }

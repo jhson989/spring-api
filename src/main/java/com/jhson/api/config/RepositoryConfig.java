@@ -1,6 +1,8 @@
 package com.jhson.api.config;
 
-import com.jhson.api.person.repository.OraclePersonRepository;
+import com.jhson.api.home.repository.ClientJdbcTemplateRepository;
+import com.jhson.api.home.repository.ClientRepository;
+import com.jhson.api.person.repository.PersonJdbcTemplateRepository;
 import com.jhson.api.person.repository.PersonRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +20,12 @@ public class RepositoryConfig {
 
     @Bean
     public PersonRepository personRepository() {
-        return new OraclePersonRepository(dataSource);
+        return new PersonJdbcTemplateRepository(dataSource);
+    }
+
+    @Bean
+    public ClientRepository clientRepository() {
+        return new ClientJdbcTemplateRepository(dataSource);
     }
 
 }
