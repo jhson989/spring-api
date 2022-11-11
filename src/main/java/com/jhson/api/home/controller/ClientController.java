@@ -1,14 +1,16 @@
 package com.jhson.api.home.controller;
 
-import com.jhson.api.home.entity.ClientLog;
+import com.jhson.api.home.entity.ClientInfoDTO;
 import com.jhson.api.home.service.ClientService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
-@Controller
+@RestController
+@RequestMapping("/")
 public class ClientController {
 
     private final ClientService clientService;
@@ -18,9 +20,15 @@ public class ClientController {
     }
 
     @GetMapping("/")
-    @ResponseBody
-    public String home(HttpServletRequest request) {
-        ClientLog clientInfo = clientService.registerClientInfo(request.getRemoteAddr(), request.getRemotePort());
+    public String home(
+            HttpServletRequest request
+    ) {
+        ClientInfoDTO clientInfo = new ClientInfoDTO();
+        clientInfo.setIp(request.getRemoteAddr());
+        clientInfo.setPort(request.getRemotePort());
+        clientInfo.setAccessTime(new Date());
+        clientService.writeClientInfo(clientInfo);
+
         return String.format("Welcome, [%s]", clientInfo.toString());
     }
 }

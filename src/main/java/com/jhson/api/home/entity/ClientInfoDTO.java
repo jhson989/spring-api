@@ -4,16 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-public class ClientLog {
+public class ClientInfoDTO {
 
     private String ip;
     private int port;
-    private Date time;
+    private Date accessTime;
 
-    public ClientLog() {
-        ip = null;
-        port = -1;
-        time = null;
+    public ClientInfoDTO() {
     }
 
     @Override
@@ -22,7 +19,7 @@ public class ClientLog {
                 "[Client Info] : IP(%s:%d) accessTime(%s)"
                 , this.ip
                 , this.port
-                , new SimpleDateFormat("yyyy-MM-dd : hh:mm:ss").format(this.time)
+                , new SimpleDateFormat("yyyy-MM-dd : kk:mm:ss").format(this.accessTime)
         );
     }
 
@@ -30,8 +27,8 @@ public class ClientLog {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ClientLog that = (ClientLog) o;
-        return Objects.equals(ip, that.ip) && Objects.equals(time, that.time) && port==that.port;
+        ClientInfoDTO that = (ClientInfoDTO) o;
+        return Objects.equals(ip, that.ip) && Objects.equals(accessTime, that.accessTime) && port==that.port;
     }
 
     @Override
@@ -39,19 +36,16 @@ public class ClientLog {
         return Objects.hash(ip);
     }
 
-    public ClientLog setIp(String ip) {
+    public void setIp(String ip) {
         this.ip = ip;
-        return this;
     }
 
-    public ClientLog setPort(int port) {
+    public void setPort(int port) {
         this.port = port;
-        return this;
     }
 
-    public ClientLog setTime(Date time) {
-        this.time = time;
-        return this;
+    public void setAccessTime(Date accessTime) {
+        this.accessTime = accessTime;
     }
 
     public int getPort() {
@@ -62,8 +56,8 @@ public class ClientLog {
         return ip;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getAccessTime() {
+        return accessTime;
     }
 
 

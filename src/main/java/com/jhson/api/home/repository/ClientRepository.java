@@ -1,9 +1,13 @@
 package com.jhson.api.home.repository;
 
-import com.jhson.api.home.entity.ClientLog;
+import com.jhson.api.home.entity.ClientInfoVO;
+
+import java.util.Optional;
 
 public interface ClientRepository {
 
-    public boolean addClientLog(ClientLog clientLog);
+    public Optional<ClientInfoVO> selectByIPPort(ClientInfoVO clientInfoVO);
+    public boolean insertClientInfo(ClientInfoVO clientInfoVO);
+    public boolean updateClientInfo(ClientInfoVO clientInfoVO);
 
 }
